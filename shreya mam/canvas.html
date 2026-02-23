@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to 2026</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@500;700;900&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-color: #050505;
+      --accent-primary: #00f3ff;
+      --accent-secondary: #bc13fe;
+      --text-color: #ffffff;
+    }
+
+    body {
+      margin: 0;
+      overflow: hidden;
+      background-color: var(--bg-color);
+      background-image:
+        radial-gradient(circle at 15% 50%, rgba(188, 19, 254, 0.12) 0%, transparent 55%),
+        radial-gradient(circle at 85% 30%, rgba(0, 243, 255, 0.12) 0%, transparent 55%);
+      font-family: 'Inter', sans-serif;
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #container {
+      position: relative;
+      width: 90vw;
+      height: 80vh;
+      max-width: 1200px;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.55);
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      z-index: 10;
+      padding: 0 20px;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      margin: 0;
+      text-transform: uppercase;
+      background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-shadow: 0 0 30px rgba(188, 19, 254, 0.5);
+      animation: pulse 3s infinite ease-in-out;
+      letter-spacing: 3px;
+    }
+
+    p#subtext {
+      margin: 0.8rem 0 0;
+      opacity: 0.85;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    p#meme-text {
+      font-size: clamp(1.05rem, 2vw, 1.6rem);
+      margin-top: 1rem;
+      letter-spacing: 1.5px;
+      opacity: 0.92;
+      min-height: 2.2em;
+      transition: opacity 0.5s ease;
+      max-width: 900px;
+      line-height: 1.4;
+    }
+
+    .controls {
+      position: absolute;
+      bottom: 26px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 20;
+      pointer-events: auto;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .btn {
+      background: rgba(0, 0, 0, 0.62);
+      border: 1px solid var(--accent-primary);
+      color: var(--accent-primary);
+      padding: 10px 22px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.25s ease;
+      box-shadow: 0 0 10px rgba(0, 243, 255, 0.22);
+      user-select: none;
+    }
+
+    .btn:hover {
+      background: var(--accent-primary);
+      color: #000;
+      box-shadow: 0 0 22px rgba(0, 243, 255, 0.65);
+      transform: translateY(-1px);
+    }
+
+    .btn.secondary {
+      border-color: var(--accent-secondary);
+      color: var(--accent-secondary);
+      box-shadow: 0 0 10px rgba(188, 19, 254, 0.22);
+    }
+
+    .btn.secondary:hover {
+      background: var(--accent-secondary);
+      color: #000;
+      box-shadow: 0 0 22px rgba(188, 19, 254, 0.65);
+    }
+
+    @keyframes pulse {
+      0%, 100% { filter: brightness(1) blur(0px); }
+      50% { filter: brightness(1.25) blur(1px); }
+    }
+
+    /* tiny helper badge */
+    .hint {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 25;
+      pointer-events: none;
+      font-size: 0.85rem;
+      opacity: 0.7;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 8px 12px;
+      border-radius: 999px;
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <div class="hint">Move mouse ✨ • Click for vibes 🔊</div>
+
+    <canvas id="canvas"></canvas>
+
+    <div class="overlay">
+      <h1>WELCOME TO 2026</h1>
+      <p id="subtext">AI is fast. Deadlines are faster. You? Legendary.</p>
+      <p id="meme-text">Loading premium 2026 memes...</p>
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="nextBtn">Next Meme</button>
+      <button class="btn secondary" id="muteBtn">Mute</button>
+    </div>
+  </div>
+
+  <script>
+    /**
+     * CANVAS SETUP
+     */
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+
+    function resize() {
+      width = canvas.parentElement.clientWidth;
+      height = canvas.parentElement.clientHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    /**
+     * MOUSE INTERACTION
+     */
+    const mouse = { x: undefined, y: undefined, radius: 150 };
+
+    const container = document.getElementById('container');
+    container.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+    });
+
+    container.addEventListener('mouseleave', () => {
+      mouse.x = undefined;
+      mouse.y = undefined;
+    });
+
+    /**
+     * PARTICLES
+     */
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.size = Math.random() * 3 + 1;
+        this.speedX = (Math.random() - 0.5) * 1.5;
+        this.speedY = (Math.random() - 0.5) * 1.5;
+        this.hue = Math.random() * 70 + 250; // purples/blues
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.x > width || this.x < 0) this.speedX *= -1;
+        if (this.y > height || this.y < 0) this.speedY *= -1;
+
+        if (mouse.x !== undefined) {
+          const dx = mouse.x - this.x;
+          const dy = mouse.y - this.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < mouse.radius) {
+            // avoid division by 0
+            const safeDistance = Math.max(distance, 0.0001);
+            const forceDirectionX = dx / safeDistance;
+            const forceDirectionY = dy / safeDistance;
+            const force = (mouse.radius - safeDistance) / mouse.radius;
+
+            this.x -= forceDirectionX * force * 3;
+            this.y -= forceDirectionY * force * 3;
+          }
+        }
+      }
+
+      draw() {
+        ctx.fillStyle = `hsl(${this.hue}, 100%, 60%)`;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = `hsl(${this.hue}, 100%, 60%)`;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+    }
+
+    const particleArray = [];
+
+    function init() {
+      particleArray.length = 0;
+      const numberOfParticles = Math.floor((width * height) / 9000);
+      for (let i = 0; i < numberOfParticles; i++) {
+        particleArray.push(new Particle());
+      }
+    }
+    init();
+    window.addEventListener('resize', init);
+
+    function connect() {
+      for (let a = 0; a < particleArray.length; a++) {
+        for (let b = a; b < particleArray.length; b++) {
+          const dx = particleArray[a].x - particleArray[b].x;
+          const dy = particleArray[a].y - particleArray[b].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < 105) {
+            const opacity = 1 - (distance / 105);
+            ctx.strokeStyle = `rgba(0, 243, 255, ${opacity * 0.5})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(particleArray[a].x, particleArray[a].y);
+            ctx.lineTo(particleArray[b].x, particleArray[b].y);
+            ctx.stroke();
+          }
+        }
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      for (let i = 0; i < particleArray.length; i++) {
+        particleArray[i].update();
+        particleArray[i].draw();
+      }
+      connect();
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    /**
+     * MEMES
+     */
+    const memeTextElement = document.getElementById('meme-text');
+
+    const memes = [
+      "Welcome to 2026: where the bug fixes itself... in production. 🤝🔥",
+      "I didn’t break it. I just created a new feature called ‘unexpected behavior’. 🧠",
+      "If it works… don’t touch it. If it doesn’t… blame the cache. 🫡",
+      "2026 goal: push code, not my luck. (Still pushing my luck.) 😭",
+      "My code is like my gym plan: looks strong on paper. 💪📄",
+      "I asked AI to write code. Now I’m debugging AI’s feelings. 🤖💔",
+      "‘Just one small change’ — famous last words before 200 commits. 🧨",
+      "Stack Overflow is my co-founder. Google is my CTO. 💼",
+      "If you see me quiet, I’m either thinking… or my app is crashing silently. 🧘‍♂️💥",
+      "Frontend: 2px misalignment. Brain: full panic mode. 😵‍💫",
+      "Backend: works perfectly. UI: looks like it got attacked by CSS. 🎨⚔️",
+      "Git status: ‘changes not staged’ — like my life decisions. 🥲",
+      "‘It works on my machine’ is my love language. ¯\\_(ツ)_/¯",
+      "When the deadline is today but the motivation is ‘tomorrow’. ⏳",
+      "I don't always test my code… but when I do, it’s in production. 🧯",
+      "Deploying on Friday? That’s not confidence. That’s chaos. 💀",
+      "404: Motivation not found. 200: Sleep not found. ✅❌",
+      "CSS: where ‘why’ becomes ‘because’. 💅",
+      "If debugging is the process of removing bugs, then programming is the process of adding them. 🐛",
+      "New Year 2026 resolution: `git push` and pray. 🙏"
+    ];
+
+    let memeIndex = -1;
+
+    function updateMeme() {
+      memeTextElement.style.opacity = 0;
+      setTimeout(() => {
+        memeIndex = (memeIndex + 1) % memes.length;
+        memeTextElement.innerText = memes[memeIndex];
+        memeTextElement.style.opacity = 0.92;
+      }, 450);
+    }
+
+    /**
+     * AUDIO (plays on click)
+     * - Uses Web Audio (no external mp3 needed)
+     * - Works after user interacts (browser policy)
+     */
+    let audioEnabled = true;
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    const audioCtx = AudioContextClass ? new AudioContextClass() : null;
+
+    function playClickSound() {
+      if (!audioEnabled || !audioCtx) return;
+
+      // resume context if suspended (required on first interaction)
+      if (audioCtx.state === "suspended") {
+        audioCtx.resume();
+      }
+
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+
+      // small "futuristic click" sound
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(880, audioCtx.currentTime); // start
+      osc.frequency.exponentialRampToValueAtTime(520, audioCtx.currentTime + 0.08);
+
+      gain.gain.setValueAtTime(0.0001, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.18, audioCtx.currentTime + 0.01);
+      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 0.12);
+
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.13);
+    }
+
+    /**
+     * AUTO CYCLE
+     */
+    updateMeme(); // show first meme immediately
+    let memeInterval = setInterval(updateMeme, 4000);
+
+    function nextMeme() {
+      clearInterval(memeInterval);
+      playClickSound();
+      updateMeme();
+      memeInterval = setInterval(updateMeme, 4000);
+    }
+
+    /**
+     * BUTTONS
+     */
+    const nextBtn = document.getElementById('nextBtn');
+    const muteBtn = document.getElementById('muteBtn');
+
+    nextBtn.addEventListener('click', nextMeme);
+
+    muteBtn.addEventListener('click', () => {
+      audioEnabled = !audioEnabled;
+      muteBtn.innerText = audioEnabled ? "Mute" : "Unmute";
+      // small feedback sound when unmuting
+      if (audioEnabled) playClickSound();
+    });
+
+    // Optional: clicking anywhere in container also enables audio context safely
+    container.addEventListener('click', () => {
+      if (audioCtx && audioCtx.state === "suspended") audioCtx.resume();
+    });
+  </script>
+</body>
+
+</html>

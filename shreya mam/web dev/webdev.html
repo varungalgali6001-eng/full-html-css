@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrendStore - Fashion & Electronics</title>
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation */
+        header {
+            background-color: #ffffff;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ff4757;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            color: #2f3542;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #2f3542;
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ff4757;
+        }
+
+        .cart-icon {
+            background-color: #f1f2f6;
+            padding: 10px 15px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #2f3542;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(rgba(47, 53, 66, 0.7), rgba(47, 53, 66, 0.7)), url('banner.jpg') center/cover no-repeat;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 25px;
+            max-width: 600px;
+        }
+
+        .btn-shop {
+            background-color: #ff4757;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 30px;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 15px rgba(255, 71, 87, 0.4);
+        }
+
+        .btn-shop:hover {
+            background-color: #ff6b81;
+            transform: translateY(-3px);
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 40px;
+            color: #2f3542;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            width: 80px;
+            height: 4px;
+            background-color: #ff4757;
+            display: block;
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Product Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #2ed573;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-bottom: 1px solid #f1f2f6;
+            transition: transform 0.5s ease;
+        }
+
+        .img-wrapper {
+            overflow: hidden;
+        }
+
+        .product-card:hover .product-img {
+            transform: scale(1.08);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-category {
+            color: #a4b0be;
+            font-size: 13px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            color: #2f3542;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .price-current {
+            font-size: 20px;
+            color: #ff4757;
+            font-weight: bold;
+        }
+
+        .price-old {
+            font-size: 14px;
+            color: #a4b0be;
+            text-decoration: line-through;
+        }
+
+        .btn-add {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #2f3542;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .btn-add:hover {
+            background-color: #ff4757;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #2f3542;
+            color: #f1f2f6;
+            padding: 60px 20px 20px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h3 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .footer-col p {
+            color: #a4b0be;
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: #a4b0be;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-col ul li a:hover {
+            color: #ff4757;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #57606f;
+            color: #a4b0be;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                gap: 15px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">Trend<span>Store</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#shop">Shop All</a></li>
+                    <li><a href="#">Men</a></li>
+                    <li><a href="#">Women</a></li>
+                    <li><a href="#">Electronics</a></li>
+                </ul>
+            </nav>
+            <a href="#" class="cart-icon">🛒 Cart (3)</a>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="hero">
+        <h1>Summer Sale is Here</h1>
+        <p>Discover the latest trends in fashion and electronics. Grab the best deals before they're gone!</p>
+        <a href="#shop" class="btn-shop">Shop Now</a>
+    </section>
+
+    <!-- Main Content -->
+    <main id="shop">
+        <h2 class="section-title">Featured Products</h2>
+
+        <div class="products-grid">
+
+            <!-- Product 1 -->
+            <div class="product-card">
+                <div class="badge">Sale</div>
+                <div class="img-wrapper">
+                    <img src="product1.jpg" alt="Premium Wireless Headphones" class="product-img">
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Audio</div>
+                    <h3 class="product-title">Noise Cancelling Headphones</h3>
+                    <div class="product-price">
+                        <span class="price-current">₹ 2,499</span>
+                        <span class="price-old">₹ 4,999</span>
+                    </div>
+                    <a href="#" class="btn-add">Add to Cart</a>
+                </div>
+            </div>
+
+            <!-- Product 2 -->
+            <div class="product-card">
+                <div class="img-wrapper">
+                    <img src="product2.jpg" alt="Classic Men's Watch" class="product-img">
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Accessories</div>
+                    <h3 class="product-title">Classic Leather Watch</h3>
+                    <div class="product-price">
+                        <span class="price-current">₹ 1,850</span>
+                    </div>
+                    <a href="#" class="btn-add">Add to Cart</a>
+                </div>
+            </div>
+
+            <!-- Product 3 -->
+            <div class="product-card">
+                <div class="badge">New</div>
+                <div class="img-wrapper">
+                    <img src="product3.jpg" alt="Stylish Urban Sneakers" class="product-img">
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Footwear</div>
+                    <h3 class="product-title">Urban Lifestyle Sneakers</h3>
+                    <div class="product-price">
+                        <span class="price-current">₹ 3,200</span>
+                    </div>
+                    <a href="#" class="btn-add">Add to Cart</a>
+                </div>
+            </div>
+
+            <!-- Product 4 -->
+            <div class="product-card">
+                <div class="img-wrapper">
+                    <img src="product4.jpg" alt="Travel Backpack" class="product-img">
+                </div>
+                <div class="product-info">
+                    <div class="product-category">Travel</div>
+                    <h3 class="product-title">Waterproof Travel Backpack</h3>
+                    <div class="product-price">
+                        <span class="price-current">₹ 1,499</span>
+                        <span class="price-old">₹ 2,500</span>
+                    </div>
+                    <a href="#" class="btn-add">Add to Cart</a>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-col">
+                <h3>TrendStore</h3>
+                <p>Your ultimate destination for fashion, lifestyle, and latest tech gadgets at unbeatable prices.</p>
+            </div>
+            <div class="footer-col">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Track Order</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Customer Service</h3>
+                <ul>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Shipping Info</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Newsletter</h3>
+                <p>Subscribe to receive updates, access to exclusive deals, and more.</p>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <input type="email" placeholder="Enter your email"
+                        style="padding: 10px; width: 100%; border: none; border-radius: 4px;">
+                    <button
+                        style="padding: 10px 15px; background: #ff4757; color: white; border: none; border-radius: 4px; cursor: pointer;">Sub</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 TrendStore E-Commerce. Built with HTML & CSS.</p>
+        </div>
+    </footer>
+
+</body>
+
+</html>

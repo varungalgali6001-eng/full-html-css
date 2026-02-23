@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Flower Garden</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8ec 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: #2d3436;
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '🌸';
+            margin-left: 15px;
+        }
+
+        h1::before {
+            content: '🌺';
+            margin-right: 15px;
+        }
+
+        .subtitle {
+            color: #636e72;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        .flowers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            padding: 20px 0;
+        }
+
+        .flower-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .flower-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .flower-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .flower-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .image-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.1));
+        }
+
+        .card-content {
+            padding: 25px;
+            text-align: center;
+        }
+
+        .card-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: #2d3436;
+            margin-bottom: 15px;
+        }
+
+        .card-content p {
+            color: #636e72;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .read-more {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a5a);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(238, 90, 90, 0.3);
+        }
+
+        .read-more:hover {
+            background: linear-gradient(135deg, #ee5a5a, #d63031);
+            box-shadow: 0 6px 20px rgba(238, 90, 90, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Different accent colors for each card */
+        .flower-card:nth-child(1) .read-more {
+            background: linear-gradient(135deg, #e84393, #d63384);
+        }
+        .flower-card:nth-child(1) .read-more:hover {
+            background: linear-gradient(135deg, #d63384, #c2255c);
+        }
+
+        .flower-card:nth-child(2) .read-more {
+            background: linear-gradient(135deg, #fdcb6e, #f39c12);
+        }
+        .flower-card:nth-child(2) .read-more:hover {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+        }
+
+        .flower-card:nth-child(3) .read-more {
+            background: linear-gradient(135deg, #e17055, #d63031);
+        }
+        .flower-card:nth-child(3) .read-more:hover {
+            background: linear-gradient(135deg, #d63031, #c0392b);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #b2bec3;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .flowers-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Flower Garden</h1>
+            <p class="subtitle">Discover the beauty of nature's finest blooms</p>
+        </header>
+
+        <div class="flowers-grid">
+            <div class="flower-card">
+                <div class="image-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e6/Rosa_rubiginosa_1.jpg" alt="Rose">
+                </div>
+                <div class="card-content">
+                    <h2>Rose</h2>
+                    <p>The rose is a symbol of love and beauty, known for its fragrant blooms and elegant petals in various colors.</p>
+                    <a href="https://en.wikipedia.org/wiki/Rose" target="_blank" class="read-more">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+
+            <div class="flower-card">
+                <div class="image-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Sunflower_sky_backdrop.jpg" alt="Sunflower">
+                </div>
+                <div class="card-content">
+                    <h2>Sunflower</h2>
+                    <p>Sunflowers are known for their bright yellow petals and their unique ability to turn towards the sun.</p>
+                    <a href="https://en.wikipedia.org/wiki/Sunflower" target="_blank" class="read-more">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+
+            <div class="flower-card">
+                <div class="image-container">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/7/74/Tulips_in_Gouda_%282015%29.jpg" alt="Tulip">
+                </div>
+                <div class="card-content">
+                    <h2>Tulip</h2>
+                    <p>Tulips are spring-blooming flowers famous for their vibrant colors and cup-shaped blossoms.</p>
+                    <a href="https://en.wikipedia.org/wiki/Tulip" target="_blank" class="read-more">
+                        Learn More
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Made with love for flower enthusiasts</p>
+        </footer>
+    </div>
+
+</body>
+</html>

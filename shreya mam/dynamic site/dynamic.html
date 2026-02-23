@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notion Clone</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: #000000;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* --- Header --- */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 24px;
+            position: sticky;
+            top: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+        }
+
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        /* Notion logo box approximation */
+        .logo-box {
+            width: 32px;
+            height: 32px;
+            border: 2px solid #000;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #000;
+            font-size: 15px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        nav a.has-dropdown::after {
+            content: '⌄';
+            font-size: 16px;
+            font-weight: 400;
+            margin-bottom: 4px;
+        }
+
+        nav a:hover {
+            color: #555;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-actions a {
+            text-decoration: none;
+            color: #000;
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background-color: #0a85d1;
+            color: #fff !important;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: #0975b8;
+        }
+
+        .btn-secondary {
+            background-color: #eaf3fe;
+            color: #0a85d1 !important;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #dcedfd;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            text-align: center;
+            padding: 60px 20px 0;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-illustration {
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            height: 200px;
+            /* Placeholder area */
+            background: url('https://images.unsplash.com/photo-1558451733-149ae300f2e0?q=80&w=700&auto=format&fit=crop') center/cover no-repeat;
+            /* In a real project, this would be the actual vector illustration */
+            border-radius: 20px;
+            opacity: 0.9;
+        }
+
+        h1 {
+            font-size: 64px;
+            font-weight: 700;
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+        }
+
+        .subtitle {
+            font-size: 24px;
+            line-height: 1.4;
+            color: #333;
+            max-width: 750px;
+            margin: 0 auto 30px;
+            font-weight: 400;
+        }
+
+        .cta-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 60px;
+        }
+
+        .cta-buttons .btn-primary {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        /* --- App Mockup Section --- */
+        .app-mockup-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 12px 12px 0 0;
+            border: 1px solid #e0e0e0;
+            border-bottom: none;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            border-bottom: 1px solid #e0e0e0;
+            background: #fdfdfd;
+        }
+
+        .mac-dots {
+            display: flex;
+            gap: 8px;
+            margin-right: 20px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d1d1d1;
+        }
+
+        .mockup-nav-controls {
+            display: flex;
+            gap: 16px;
+            color: #999;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .mockup-tabs {
+            display: flex;
+            margin-left: 20px;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            font-weight: 500;
+            color: #333;
+            background: #f0f0f0;
+            padding: 4px 12px;
+            border-radius: 6px;
+        }
+
+        .mockup-body {
+            height: 300px;
+            padding: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            position: relative;
+            background: #fff;
+            display: flex;
+        }
+
+        .mockup-sidebar {
+            width: 200px;
+            color: #555;
+            font-size: 14px;
+            padding-right: 20px;
+        }
+
+        .mockup-content {
+            flex: 1;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .ai-chat-box {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            width: 250px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            background: #fff;
+            padding: 12px;
+        }
+
+        .ai-chat-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            font-weight: 600;
+            color: #555;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+            align-items: center;
+        }
+
+        .ai-chat-bubble {
+            background: #f1f2f4;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .date-stamp {
+            text-align: center;
+            font-size: 10px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        /* --- Footer Logos --- */
+        .trusted-logos {
+            text-align: center;
+            padding: 30px 20px 50px;
+            border-top: 1px solid #eee;
+            margin-top: -1px;
+            background: #fff;
+        }
+
+        .trusted-text {
+            color: #888;
+            font-size: 14px;
+            margin-right: 20px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .logos-container {
+            display: inline-flex;
+            align-items: center;
+            gap: 30px;
+            vertical-align: middle;
+            flex-wrap: wrap;
+        }
+
+        .company-logo {
+            font-weight: 700;
+            font-size: 18px;
+            color: #000;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .company-logo span {
+            font-size: 20px;
+            /* For an icon/emoji */
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            nav {
+                display: none;
+            }
+
+            h1 {
+                font-size: 48px;
+            }
+
+            .subtitle {
+                font-size: 18px;
+            }
+
+            .hero-illustration {
+                height: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo-nav">
+            <div class="logo">
+                <div class="logo-box">N</div>
+            </div>
+            <nav>
+                <a href="#" class="has-dropdown">Product</a>
+                <a href="#" class="has-dropdown">AI</a>
+                <a href="#" class="has-dropdown">Solutions</a>
+                <a href="#" class="has-dropdown">Resources</a>
+                <a href="#">Enterprise</a>
+                <a href="#">Pricing</a>
+                <a href="#">Request a demo</a>
+            </nav>
+        </div>
+        <div class="header-actions">
+            <a href="#">Log in</a>
+            <a href="#" class="btn-primary">Get Notion free</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="hero">
+        <!-- Using a placeholder block for the illustration. In a real scenario, this would be replaced with the exact image from Notion. -->
+        <div class="hero-illustration"></div>
+
+        <h1>One workspace.<br>Zero busywork.</h1>
+        <p class="subtitle">
+            Notion is where your teams and AI agents capture knowledge, find answers, and automate projects. Now a team
+            of 7 feels like 70.
+        </p>
+
+        <div class="cta-buttons">
+            <a href="#" class="btn-primary">Get Notion free</a>
+            <a href="#" class="btn-secondary">Request a demo</a>
+        </div>
+    </main>
+
+    <!-- App Mockup -->
+    <div class="app-mockup-wrapper">
+        <div class="mockup-header">
+            <div class="mac-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+            <div class="mockup-nav-controls">
+                <span>&lt;</span>
+                <span>&gt;</span>
+            </div>
+            <div class="mockup-tabs">
+                <div class="tab" style="background: transparent;">
+                    <span style="color:#d95c41;">⚑</span> Acme Inc.
+                </div>
+                <div class="tab">
+                    +
+                </div>
+            </div>
+        </div>
+
+        <div class="mockup-body">
+            <div class="mockup-sidebar">
+                <div style="display:flex; align-items:center; gap:8px; font-weight:600; color:#333;">
+                    <span style="color:#d95c41;">⚑</span> Acme Inc.
+                </div>
+                <!-- Large arrow logo on the sidebar bottom like in the image -->
+                <div style="font-size: 60px; color:#a16e50; position:absolute; bottom:20px; left:40px;">➔</div>
+            </div>
+            <div class="mockup-content">
+                <div
+                    style="display:flex; justify-content:flex-end; gap:16px; font-size:14px; color:#555; align-items:center;">
+                    <span>👥 Share</span>
+                    <span>💬</span>
+                    <span>⭐</span>
+                    <span>•••</span>
+                </div>
+
+                <div class="ai-chat-box">
+                    <div class="ai-chat-header">
+                        <span>New AI chat ⌄</span>
+                        <div style="display:flex; gap:8px;">
+                            <span>📝</span>
+                            <span>▶</span>
+                            <span>»</span>
+                        </div>
+                    </div>
+                    <div class="date-stamp">Thursday, May 29</div>
+                    <div class="ai-chat-bubble">
+                        Turn this page into a hub of key company pages, our roadmap, and company priorities
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trusted By Logos -->
+    <div class="trusted-logos">
+        <span class="trusted-text">Trusted by top teams</span>
+        <div class="logos-container">
+            <div class="company-logo">
+                <span style="color:#f24e1e;">❖</span> Figma
+            </div>
+            <div class="company-logo">
+                <span style="font-size:24px;">✱</span> OpenAI
+            </div>
+            <div class="company-logo" style="font-weight:800; font-family:sans-serif;">
+                ramp ◢
+            </div>
+            <div class="company-logo">
+                <span style="font-size:14px; border:2px solid; padding:0 2px;">C</span> CURSOR
+            </div>
+            <div class="company-logo">
+                ▲ Vercel
+            </div>
+            <div class="company-logo">
+                <span style="color:#76b900;">♻</span> NVIDIA
+            </div>
+            <div class="company-logo" style="letter-spacing:4px;">
+                V O L V O
+            </div>
+            <div class="company-logo" style="color:#11b3bc; display:flex; gap:4px; align-items:center;">
+                <span style="font-size:24px;">❇</span> <span style="font-weight:400; color:#000;">perplexity</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
